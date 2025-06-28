@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010, 2017, 2020-2024 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2010, 2017, 2020-2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -32,7 +32,6 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 
 import org.hibernate.LockMode;
-import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -78,12 +77,12 @@ public class GroupDAO extends AbstractDAO implements GroupDAOIf {
 
 	@Override
 	public Group getGroup(int groupid) {
-		return getSession().get(Group.class, groupid);
+		return getSession().byId(Group.class).load(groupid);
 	}
 
 	@Override
 	public Group getGroupLocked(int groupid) {
-		return getSession().get(Group.class, groupid, LockOptions.UPGRADE);
+		return getSession().byId(Group.class).with(LockMode.PESSIMISTIC_WRITE).load(groupid);
 	}
 
 	@Override

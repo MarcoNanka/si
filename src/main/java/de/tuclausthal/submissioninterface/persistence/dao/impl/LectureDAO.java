@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012, 2017, 2020-2023 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2012, 2017, 2020-2023, 2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -73,7 +73,7 @@ public class LectureDAO extends AbstractDAO implements LectureDAOIf {
 
 	@Override
 	public Lecture getLecture(int lectureId) {
-		return getSession().get(Lecture.class, lectureId);
+		return getSession().byId(Lecture.class).load(lectureId);
 	}
 
 	@Override

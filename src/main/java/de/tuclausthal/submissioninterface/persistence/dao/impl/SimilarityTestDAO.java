@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010, 2020-2023 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2010, 2020-2023, 2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -26,7 +26,7 @@ import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-import org.hibernate.LockOptions;
+import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -70,12 +70,12 @@ public class SimilarityTestDAO extends AbstractDAO implements SimilarityTestDAOI
 
 	@Override
 	public SimilarityTest getSimilarityTest(int similarityTestId) {
-		return getSession().get(SimilarityTest.class, similarityTestId);
+		return getSession().byId(SimilarityTest.class).load(similarityTestId);
 	}
 
 	@Override
 	public SimilarityTest getSimilarityTestLocked(int similarityTestId) {
-		return getSession().get(SimilarityTest.class, similarityTestId, LockOptions.UPGRADE);
+		return getSession().byId(SimilarityTest.class).with(LockMode.PESSIMISTIC_WRITE).load(similarityTestId);
 	}
 
 	@Override

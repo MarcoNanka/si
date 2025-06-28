@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012, 2020-2023 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2012, 2020-2023, 2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -46,7 +46,7 @@ public class TaskDAO extends AbstractDAO implements TaskDAOIf {
 
 	@Override
 	public Task getTask(int taskid) {
-		return getSession().get(Task.class, taskid);
+		return getSession().byId(Task.class).load(taskid);
 	}
 
 	@Override

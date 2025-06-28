@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, 2020, 2022-2023 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2010, 2020, 2022-2023, 2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -54,7 +54,7 @@ public class PointCategoryDAO extends AbstractDAO implements PointCategoryDAOIf 
 
 	@Override
 	public PointCategory getPointCategory(int id) {
-		return getSession().get(PointCategory.class, id);
+		return getSession().byId(PointCategory.class).load(id);
 	}
 
 	@Override

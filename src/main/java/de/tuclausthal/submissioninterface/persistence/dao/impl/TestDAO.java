@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010, 2020-2024 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2010, 2020-2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -26,7 +26,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-import org.hibernate.LockOptions;
+import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -78,12 +78,12 @@ public class TestDAO extends AbstractDAO implements TestDAOIf {
 
 	@Override
 	public Test getTest(int testId) {
-		return getSession().get(Test.class, testId);
+		return getSession().byId(Test.class).load(testId);
 	}
 
 	@Override
 	public Test getTestLocked(int testId) {
-		return getSession().get(Test.class, testId, LockOptions.UPGRADE);
+		return getSession().byId(Test.class).with(LockMode.PESSIMISTIC_WRITE).load(testId);
 	}
 
 	@Override

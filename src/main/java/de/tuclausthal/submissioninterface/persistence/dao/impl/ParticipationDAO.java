@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010, 2017, 2020-2023 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2010, 2017, 2020-2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -29,7 +29,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 
-import org.hibernate.LockOptions;
+import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -142,12 +142,12 @@ public class ParticipationDAO extends AbstractDAO implements ParticipationDAOIf 
 
 	@Override
 	public Participation getParticipation(int participationid) {
-		return getSession().get(Participation.class, participationid);
+		return getSession().byId(Participation.class).load(participationid);
 	}
 
 	@Override
 	public Participation getParticipationLocked(int participationid) {
-		return getSession().get(Participation.class, participationid, LockOptions.UPGRADE);
+		return getSession().byId(Participation.class).with(LockMode.PESSIMISTIC_WRITE).load(participationid);
 	}
 
 	@Override

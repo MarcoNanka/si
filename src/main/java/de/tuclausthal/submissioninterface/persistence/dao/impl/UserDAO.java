@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010, 2020-2024 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2010, 2020-2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -47,7 +47,7 @@ public class UserDAO extends AbstractDAO implements UserDAOIf {
 
 	@Override
 	public User getUser(int uid) {
-		return getSession().get(User.class, uid);
+		return getSession().byId(User.class).load(uid);
 	}
 
 	private User getUserByUsername(String username, boolean locked) {

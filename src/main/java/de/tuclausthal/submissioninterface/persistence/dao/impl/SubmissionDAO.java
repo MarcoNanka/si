@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2012, 2017, 2020-2024 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2012, 2017, 2020-2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -38,7 +38,6 @@ import jakarta.persistence.criteria.Subquery;
 
 import org.apache.commons.io.file.PathUtils;
 import org.hibernate.LockMode;
-import org.hibernate.LockOptions;
 import org.hibernate.Session;
 
 import de.tuclausthal.submissioninterface.persistence.dao.SubmissionDAOIf;
@@ -67,12 +66,12 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionDAOIf {
 
 	@Override
 	public Submission getSubmission(int submissionid) {
-		return getSession().get(Submission.class, submissionid);
+		return getSession().byId(Submission.class).load(submissionid);
 	}
 
 	@Override
 	public Submission getSubmissionLocked(int submissionid) {
-		return getSession().get(Submission.class, submissionid, LockOptions.UPGRADE);
+		return getSession().byId(Submission.class).with(LockMode.PESSIMISTIC_WRITE).load(submissionid);
 	}
 
 	@Override
