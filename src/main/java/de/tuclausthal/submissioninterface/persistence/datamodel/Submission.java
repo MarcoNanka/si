@@ -1,5 +1,5 @@
 /*
- * Copyright 2009-2010, 2017, 2020-2024 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2009-2010, 2017, 2020-2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -54,7 +54,7 @@ public class Submission implements Serializable {
 	@JoinColumn(name = "taskid", nullable = false)
 	private Task task;
 	@ManyToMany
-	//@OrderBy(value = "user asc") // not supported with Hibernate >= 6.1, see workaround in getSubmitterNames()
+	@OrderBy(value = "user asc")
 	@JoinTable(name = "submissions_participations", inverseJoinColumns = @JoinColumn(name = "submitters_id"), joinColumns = @JoinColumn(name = "submissions_submissionid"))
 	private Set<Participation> submitters = new HashSet<>();
 	private Points points;
@@ -180,15 +180,14 @@ public class Submission implements Serializable {
 		if (getSubmitters().size() == 1) {
 			return getSubmitters().iterator().next().getUser().getLastNameFirstName();
 		}
-		StringBuilder sb = new StringBuilder();
-		// HACK until Hibernate 6 gets support for sorted sets again
-		Iterator<String> it = getSubmitters().stream().sorted((u1, u2) -> u1.getUser().getLastNameFirstName().compareTo(u2.getUser().getLastNameFirstName())).map(s -> s.getUser().getLastNameFirstName()).iterator();
+		final Iterator<Participation> it = getSubmitters().iterator();
+		final StringBuilder sb = new StringBuilder();
 		if (it.hasNext()) {
-			sb.append(it.next());
+			sb.append(it.next().getUser().getLastNameFirstName());
 		}
 		while (it.hasNext()) {
 			sb.append("; ");
-			sb.append(it.next());
+			sb.append(it.next().getUser().getLastNameFirstName());
 		}
 		return sb.toString();
 	}
