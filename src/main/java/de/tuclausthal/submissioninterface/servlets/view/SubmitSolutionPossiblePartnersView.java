@@ -69,6 +69,7 @@ public class SubmitSolutionPossiblePartnersView extends HttpServlet {
 		try {
 			builder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
+			throw new ServletException(e);
 		}
 		Document document = builder.newDocument();
 		Element rootElement = document.createElement("possiblepartners");
