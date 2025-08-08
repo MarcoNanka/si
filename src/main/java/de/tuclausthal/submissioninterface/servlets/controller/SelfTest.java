@@ -359,6 +359,30 @@ public class SelfTest extends HttpServlet {
 			}
 
 			if (functionTestGenerallyOK) {
+				// check sandbox
+				javaAdvancedIOTest.getTestSteps().clear();
+				javaAdvancedIOTest.getTestSteps().add(new JavaAdvancedIOTestStep(javaAdvancedIOTest, "Empty", "Triangle.drawTriangle(0);", ""));
+				try (Writer fw = Files.newBufferedWriter(tempDir.resolve("Triangle.java"))) {
+					fw.write("public class Triangle {\r\n" + "	static void drawTriangle(int sizeOfTriangle) {\r\n" + "		System.exit(0);\r\n" + "	}\r\n" + "}");
+				}
+				javaFunctionTest.performTest(Configuration.getInstance().getDataPath(), tempDir, result);
+				try (JsonReader jsonReader = Json.createReader(new StringReader(result.getTestOutput()))) {
+					testresults.add(new TestResult("JavaAdvancedIOTest Sandbox erkennt System.exit(0) erfolgreich.", Util.escapeHTML(result.getTestOutput()), !result.isTestPassed() && result.getTestOutput().contains(" java.security.AccessControlException: access denied (\\\"java.lang.RuntimePermission\\\" \\\"exitTheVM.")));
+				} catch (JsonParsingException ex) {
+					testresults.add(new TestResult("JavaAdvancedIOTest-Ausgabe ist kein gültiges JSON.", Util.escapeHTML(result.getTestOutput()), false));
+				}
+
+				try (Writer fw = Files.newBufferedWriter(tempDir.resolve("Triangle.java"))) {
+					fw.write("public class Triangle {\r\n" + "	static void drawTriangle(int sizeOfTriangle) {\r\n" + "		try {\r\n"+ "			java.nio.file.Files.writeString(java.nio.file.Path.of(\"/tmp/evil.txt\"), \"test-evil\");\r\n" + "		} catch (java.io.IOException e) {}\r\n" + "	}\r\n" + "}");
+				}
+				javaFunctionTest.performTest(Configuration.getInstance().getDataPath(), tempDir, result);
+				try (JsonReader jsonReader = Json.createReader(new StringReader(result.getTestOutput()))) {
+					testresults.add(new TestResult("JavaAdvancedIOTest Sandbox verhindert und erkennt Schreiben von Dateien in /tmp.", Util.escapeHTML(result.getTestOutput()), !result.isTestPassed() && result.getTestOutput().contains("java.security.AccessControlException: access denied")));
+				} catch (JsonParsingException ex) {
+					testresults.add(new TestResult("JavaAdvancedIOTest-Ausgabe ist kein gültiges JSON.", Util.escapeHTML(result.getTestOutput()), false));
+				}
+			}
+			if (functionTestGenerallyOK) {
 				javaAdvancedIOTest.getTestSteps().clear();
 				javaAdvancedIOTest.getTestSteps().add(new JavaAdvancedIOTestStep(javaAdvancedIOTest, "Empty", "Triangle.drawTriangle(0);", ""));
 				try (Writer fw = Files.newBufferedWriter(tempDir.resolve("Triangle.java"))) {
