@@ -46,7 +46,7 @@ public class TaskDAO extends AbstractDAO implements TaskDAOIf {
 
 	@Override
 	public Task getTask(int taskid) {
-		return getSession().byId(Task.class).load(taskid);
+		return getSession().find(Task.class, taskid);
 	}
 
 	@Override

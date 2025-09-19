@@ -26,7 +26,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -78,12 +77,12 @@ public class TestDAO extends AbstractDAO implements TestDAOIf {
 
 	@Override
 	public Test getTest(int testId) {
-		return getSession().byId(Test.class).load(testId);
+		return getSession().find(Test.class, testId);
 	}
 
 	@Override
 	public Test getTestLocked(int testId) {
-		return getSession().byId(Test.class).with(LockMode.PESSIMISTIC_WRITE).load(testId);
+		return getSession().find(Test.class, testId, LockModeType.PESSIMISTIC_WRITE);
 	}
 
 	@Override

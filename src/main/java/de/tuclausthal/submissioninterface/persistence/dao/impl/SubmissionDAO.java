@@ -66,12 +66,12 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionDAOIf {
 
 	@Override
 	public Submission getSubmission(int submissionid) {
-		return getSession().byId(Submission.class).load(submissionid);
+		return getSession().find(Submission.class, submissionid);
 	}
 
 	@Override
 	public Submission getSubmissionLocked(int submissionid) {
-		return getSession().byId(Submission.class).with(LockMode.PESSIMISTIC_WRITE).load(submissionid);
+		return getSession().find(Submission.class, submissionid, LockModeType.PESSIMISTIC_WRITE);
 	}
 
 	@Override

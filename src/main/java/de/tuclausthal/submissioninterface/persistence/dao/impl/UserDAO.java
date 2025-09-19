@@ -47,7 +47,7 @@ public class UserDAO extends AbstractDAO implements UserDAOIf {
 
 	@Override
 	public User getUser(int uid) {
-		return getSession().byId(User.class).load(uid);
+		return getSession().find(User.class, uid);
 	}
 
 	private User getUserByUsername(String username, boolean locked) {

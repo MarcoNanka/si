@@ -29,7 +29,6 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 
-import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -142,12 +141,12 @@ public class ParticipationDAO extends AbstractDAO implements ParticipationDAOIf 
 
 	@Override
 	public Participation getParticipation(int participationid) {
-		return getSession().byId(Participation.class).load(participationid);
+		return getSession().find(Participation.class, participationid);
 	}
 
 	@Override
 	public Participation getParticipationLocked(int participationid) {
-		return getSession().byId(Participation.class).with(LockMode.PESSIMISTIC_WRITE).load(participationid);
+		return getSession().find(Participation.class, participationid, LockModeType.PESSIMISTIC_WRITE);
 	}
 
 	@Override

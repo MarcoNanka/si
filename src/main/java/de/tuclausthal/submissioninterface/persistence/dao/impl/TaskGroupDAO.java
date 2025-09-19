@@ -41,7 +41,7 @@ public class TaskGroupDAO extends AbstractDAO implements TaskGroupDAOIf {
 
 	@Override
 	public TaskGroup getTaskGroup(int taskGroupId) {
-		return getSession().byId(TaskGroup.class).load(taskGroupId);
+		return getSession().find(TaskGroup.class, taskGroupId);
 	}
 
 	@Override

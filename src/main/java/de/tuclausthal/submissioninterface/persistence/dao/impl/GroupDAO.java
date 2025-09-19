@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -77,12 +78,12 @@ public class GroupDAO extends AbstractDAO implements GroupDAOIf {
 
 	@Override
 	public Group getGroup(int groupid) {
-		return getSession().byId(Group.class).load(groupid);
+		return getSession().find(Group.class, groupid);
 	}
 
 	@Override
 	public Group getGroupLocked(int groupid) {
-		return getSession().byId(Group.class).with(LockMode.PESSIMISTIC_WRITE).load(groupid);
+		return getSession().find(Group.class, groupid, LockModeType.PESSIMISTIC_WRITE);
 	}
 
 	@Override

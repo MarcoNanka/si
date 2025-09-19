@@ -26,7 +26,6 @@ import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -70,12 +69,12 @@ public class SimilarityTestDAO extends AbstractDAO implements SimilarityTestDAOI
 
 	@Override
 	public SimilarityTest getSimilarityTest(int similarityTestId) {
-		return getSession().byId(SimilarityTest.class).load(similarityTestId);
+		return getSession().find(SimilarityTest.class, similarityTestId);
 	}
 
 	@Override
 	public SimilarityTest getSimilarityTestLocked(int similarityTestId) {
-		return getSession().byId(SimilarityTest.class).with(LockMode.PESSIMISTIC_WRITE).load(similarityTestId);
+		return getSession().find(SimilarityTest.class, similarityTestId, LockModeType.PESSIMISTIC_WRITE);
 	}
 
 	@Override
