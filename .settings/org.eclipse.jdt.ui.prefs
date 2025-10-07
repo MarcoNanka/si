@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-formatter_settings_version=20
+formatter_settings_version=23
 org.eclipse.jdt.ui.ignorelowercasenames=true
 org.eclipse.jdt.ui.importorder=java;javax;jakarta;org;com;
 org.eclipse.jdt.ui.ondemandthreshold=99
