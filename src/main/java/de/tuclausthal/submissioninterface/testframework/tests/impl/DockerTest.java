@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2021-2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -23,6 +23,7 @@ import java.io.Writer;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -45,7 +46,7 @@ public class DockerTest extends TempDirTest<de.tuclausthal.submissioninterface.p
 	final static private Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	final static public String SAFE_DOCKER_SCRIPT = "/usr/local/bin/safe-docker";
 
-	private static final Random random = new Random();
+	private static final Random random = new SecureRandom();
 	private final String separator;
 	private Path tempDir;
 

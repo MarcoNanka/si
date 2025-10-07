@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022, 2024 Sven Strickroth <email@cs-ware.de>
+ * Copyright 2020-2022, 2024-2025 Sven Strickroth <email@cs-ware.de>
  *
  * This file is part of the GATE.
  *
@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +38,7 @@ import de.tuclausthal.submissioninterface.testframework.executor.TestExecutorTes
 import de.tuclausthal.submissioninterface.util.Util;
 
 public class JavaAdvancedIOTest extends JavaFunctionTest<de.tuclausthal.submissioninterface.persistence.datamodel.JavaAdvancedIOTest> {
-	private static final Random random = new Random();
+	private static final Random random = new SecureRandom();
 	private static final String STUDENT_CODE_DIRNAME = "studentcode";
 	private static final String TEST_CODE_DIRNAME = "testcode";
 	private static final String STUDENT_CLASSES_DIRNAME = STUDENT_CODE_DIRNAME + "_classes";
